@@ -1,0 +1,217 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  loginId     String   @unique
+  email       String   @unique
+  password    String
+  name        String?
+  role        UserRole @default(OPERATOR)
+  department  String?
+  status      UserStatus @default(ACTIVE)
+  phone       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  manufacturingOrders ManufacturingOrder[]
+  workOrders         WorkOrder[]
+  stockMovements     StockMovement[]
+
+  @@map("users")
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  category      String?
+  description   String?
+  unitPrice     Float
+  stockQuantity Int      @default(0)
+  minStockLevel Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  manufacturingOrders ManufacturingOrder[]
+  bomComponents      BOMComponent[]
+  stockMovements     StockMovement[]
+
+  @@map("products")
+}
+
+model ManufacturingOrder {
+  id          String                @id @default(cuid())
+  orderNumber String                @unique
+  item        String
+  productId   String
+  quantity    Int
+  status      ManufacturingStatus   @default(PLANNED)
+  deadline    DateTime
+  progress    Int                   @default(0)
+  assignee    String?
+  notes       String?
+  createdDate DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  // Relations
+  product     Product      @relation(fields: [productId], references: [id])
+  workOrders  WorkOrder[]
+  userId      String?
+  user        User?        @relation(fields: [userId], references: [id])
+
+  @@map("manufacturing_orders")
+}
+
+model WorkOrder {
+  id                  String        @id @default(cuid())
+  orderNumber         String        @unique
+  manufacturingOrderId String
+  item                String
+  operation           String
+  assignedTo          String?
+  status              WorkOrderStatus @default(NOT_STARTED)
+  startDate           DateTime?
+  estimatedHours      Float
+  actualHours         Float         @default(0)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  // Relations
+  manufacturingOrder  ManufacturingOrder @relation(fields: [manufacturingOrderId], references: [id])
+  userId              String?
+  user                User?              @relation(fields: [userId], references: [id])
+
+  @@map("work_orders")
+}
+
+model BOM {
+  id          String        @id @default(cuid())
+  productName String
+  productCode String        @unique
+  totalCost   Float         @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  components  BOMComponent[]
+
+  @@map("boms")
+}
+
+model BOMComponent {
+  id          String @id @default(cuid())
+  bomId       String
+  productId   String
+  name        String
+  quantity    Int
+  unit        String
+  cost        Float
+  operation   String
+  createdAt   DateTime @default(now())
+
+  // Relations
+  bom         BOM      @relation(fields: [bomId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id])
+
+  @@map("bom_components")
+}
+
+model StockItem {
+  id            String   @id @default(cuid())
+  productName   String
+  productCode   String   @unique
+  currentStock  Int      @default(0)
+  unit          String
+  lastUpdated   DateTime @default(now())
+  location      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("stock_items")
+}
+
+model StockMovement {
+  id          String            @id @default(cuid())
+  productId   String
+  productName String
+  type        StockMovementType
+  quantity    Int
+  reference   String?
+  notes       String?
+  date        DateTime          @default(now())
+  createdAt   DateTime          @default(now())
+
+  // Relations
+  product     Product @relation(fields: [productId], references: [id])
+  userId      String?
+  user        User?   @relation(fields: [userId], references: [id])
+
+  @@map("stock_movements")
+}
+
+model WorkCenter {
+  id          String          @id @default(cuid())
+  name        String          @unique
+  location    String?
+  description String?
+  costPerHour Float           @default(0)
+  capacity    Int             @default(0)
+  utilization Int             @default(0)
+  status      WorkCenterStatus @default(ACTIVE)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@map("work_centers")
+}
+
+// Enums
+enum UserRole {
+  ADMIN
+  MANAGER
+  OPERATOR
+  INVENTORY
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ManufacturingStatus {
+  DRAFT
+  CONFIRMED
+  PLANNED
+  IN_PROGRESS
+  DONE
+  CANCELED
+}
+
+enum WorkOrderStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  ON_HOLD
+}
+
+enum StockMovementType {
+  IN
+  OUT
+}
+
+enum WorkCenterStatus {
+  ACTIVE
+  MAINTENANCE
+  INACTIVE
+}
