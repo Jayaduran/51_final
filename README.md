@@ -1,98 +1,142 @@
-Here’s a **cleaned-up and customized** `README.md` draft based on your instructions:
 
 ````markdown
-# Odoo X NMIT – Hackathon Project 🚀
+ Odoo X NMIT Hackathon 🚀
+
+# 🏭 Manufacturing Management Application 
 
 We proudly participated in the **Odoo X NMIT Hackathon** with our project **Manufacturing Management Application** –  
 a full-stack solution to streamline manufacturing operations with **real-time KPIs, auto-generated order tracking, and a single-port deployment** for production.
 
-🎥 **Project Presentation Video Links:**  
-[▶️ Watch Presentation – Link 1](https://drive.google.com/file/d/1bTgbwGyY53Sa9Cjn6znq_g4Xai0yN5jd/view?usp=drivesdk)  
-[▶️ Watch Presentation – Link 2](https://drive.google.com/file/d/1aNvuxeJC6AxvoKyI8iGrKMv45Yo-7SJq/view?usp=drivesdk)
+---
+
+## 📌 Project Overview
+
+A modern **manufacturing management system** designed to:
+
+- 📦 **Auto-generate Manufacturing Orders** with unique codes  
+- 🔄 Manage **status workflows**: `draft → confirmed → in-progress → completed`  
+- 📊 View **real-time dashboards** with key KPIs and analytics  
+- 🔐 Ensure **secure user authentication** with JWT  
+- 🌐 Enable **single-port deployment** (backend serves the frontend) for seamless hosting
 
 ---
 
-## 🏭 Project Overview
-A **manufacturing management system** that enables:
-- 📦 **Auto-generated Manufacturing Orders** with unique codes  
-- 🔄 **Status Workflow**: draft → confirmed → in-progress → completed  
-- 📊 **Real-time Dashboard** with key production metrics  
-- 🔐 **Secure Authentication** using JWT tokens  
-- 🌐 **Single-Port Production Deployment** for easier hosting
+## ✨ Features
+
+- 🧾 Auto-generated Manufacturing Orders  
+- 🔁 Status Workflow Management  
+- 📈 Live Dashboard with KPIs  
+- 🔒 JWT-based Authentication  
+- ⚙️ RESTful APIs  
+- 🖥️ Frontend + Backend served on a single port
 
 ---
 
 ## 🚀 Quick Start (Single-Port Production)
 
-### 1️⃣ Install Dependencies
+Follow these steps to set up and run the app locally or on a server:
+
+### 1️⃣ Clone the Repository
+
 ```bash
-npm install
-cd backend && npm install
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
 ````
 
-### 2️⃣ Configure Environment Variables
-
-Create or edit the file: `backend/.env`
-
-```env
-PORT=5001
-FRONTEND_URL=http://localhost:5001
-JWT_SECRET=your_very_long_secret_key_32chars_min
-DATABASE_URL="file:./dev.db"
-JWT_EXPIRES_IN=1h
-JWT_REFRESH_EXPIRES_IN=7d
-```
-
-### 3️⃣ Build & Start
+### 2️⃣ Install Dependencies
 
 ```bash
-npm run build         # Build frontend
-cd backend && npm run build   # Build backend
-NODE_ENV=production npm run start
+# Install frontend dependencies
+npm install
+
+# Navigate to backend and install backend dependencies
+cd backend
+npm install
 ```
 
-➡️ Access the app at: **[http://localhost:5001](http://localhost:5001)**
+### 3️⃣ Create a `.env` File
+
+In the `backend/` directory, create a `.env` file with the following variables:
+
+```env
+PORT=3000
+JWT_SECRET=your_jwt_secret
+MONGO_URI=mongodb://localhost:27017/your-db-name
+```
+
+> ✅ Replace `your_jwt_secret` and `your-db-name` with your own values.
+
+### 4️⃣ Build the Frontend
+
+```bash
+# Go back to root directory
+cd ..
+
+# Build frontend for production
+npm run build
+```
+
+This creates a `build/` folder that the backend will serve.
+
+### 5️⃣ Start the Application
+
+```bash
+# Start backend (serves frontend + API)
+cd backend
+npm start
+```
+
+The app will be available at:
+👉 `http://localhost:3000`
 
 ---
 
-## 🧰 Tech Stack
+## 🐳 Optional: Docker Deployment
 
-* **Frontend**: React, Vite, Tailwind CSS
-* **Backend**: Node.js, Express, Prisma ORM
-* **Database**: SQLite (default, easily configurable)
-* **Auth**: JWT (access + refresh tokens)
+You can also deploy the app using Docker.
 
----
+### 🛠️ Build & Run with Docker
 
-## 📡 Core API Endpoints
+```bash
+# Build the image
+docker build -t manufacturing-app .
 
-| Endpoint                        | Method | Description                    |
-| ------------------------------- | ------ | ------------------------------ |
-| `/api/manufacturing-orders`     | GET    | Get all manufacturing orders   |
-| `/api/manufacturing-orders`     | POST   | Create new manufacturing order |
-| `/api/manufacturing-orders/:id` | PUT    | Update a specific order        |
-| `/api/manufacturing-orders/:id` | DELETE | Delete a manufacturing order   |
-
----
-
-## 💡 Troubleshooting
-
-| Issue                          | Fix                                        |
-| ------------------------------ | ------------------------------------------ |
-| ❌ Blank Page on Load           | Ensure frontend is built & backend started |
-| 🔁 Port Conflict               | Change `PORT` in `backend/.env`            |
-| 🔐 Auth Issues / Token Expired | Check token refresh configuration          |
-| 🔎 Database Connection Error   | Verify `DATABASE_URL` in `.env`            |
-
----
-
-## 📄 License
-
-MIT License
-
+# Run the container
+docker run -p 3000:3000 --env-file ./backend/.env manufacturing-app
 ```
 
 ---
 
-Would you like me to generate a **downloadable `README.md` file** with this exact content?
-```
+## ⚙️ Tech Stack
+
+| Layer         | Technology              |
+| ------------- | ----------------------- |
+| 🖼️ Frontend  | React.js                |
+| ⚙️ Backend    | Node.js, Express        |
+| 🛢️ Database  | MongoDB                 |
+| 🔐 Auth       | JWT (JSON Web Tokens)   |
+| 📦 Deployment | Single-port via Express |
+
+---
+
+## 🔌 API Overview
+
+### 🔐 Auth Routes
+
+* `POST /api/auth/register` – Register a new user
+* `POST /api/auth/login` – Login and receive JWT token
+
+### 📦 Manufacturing Order Routes
+
+* `GET /api/orders` – Get all orders
+* `POST /api/orders` – Create a new order
+* `PUT /api/orders/:id/status` – Update order status
+* `DELETE /api/orders/:id` – Delete an order
+
+> 🔐 All protected routes require a valid JWT in the `Authorization` header.
+
+---
+
+> 🙌 Special thanks to **Odoo** and **NMIT** for hosting the hackathon!
+
+---
