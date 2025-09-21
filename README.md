@@ -1,24 +1,36 @@
-```` Odoo X Nmit
-# 🏭 Manufacturing Management Application
+Here’s a **cleaned-up and customized** `README.md` draft based on your instructions:
 
-A full-stack manufacturing management system with real-time KPIs, auto-generated order tracking, and unified deployment via a **single port** for production.
+````markdown
+# Odoo X NMIT – Hackathon Project 🚀
 
-> 📦 Powered by Node.js + React  
-> 🧩 Supports both development and production modes  
-> 🔐 Includes secure JWT-based authentication  
-> 📊 Real-time dashboard with key manufacturing metrics
+We proudly participated in the **Odoo X NMIT Hackathon** with our project **Manufacturing Management Application** –  
+a full-stack solution to streamline manufacturing operations with **real-time KPIs, auto-generated order tracking, and a single-port deployment** for production.
+
+🎥 **Project Presentation Video Links:**  
+[▶️ Watch Presentation – Link 1](https://drive.google.com/file/d/1bTgbwGyY53Sa9Cjn6znq_g4Xai0yN5jd/view?usp=drivesdk)  
+[▶️ Watch Presentation – Link 2](https://drive.google.com/file/d/1aNvuxeJC6AxvoKyI8iGrKMv45Yo-7SJq/view?usp=drivesdk)
+
+---
+
+## 🏭 Project Overview
+A **manufacturing management system** that enables:
+- 📦 **Auto-generated Manufacturing Orders** with unique codes  
+- 🔄 **Status Workflow**: draft → confirmed → in-progress → completed  
+- 📊 **Real-time Dashboard** with key production metrics  
+- 🔐 **Secure Authentication** using JWT tokens  
+- 🌐 **Single-Port Production Deployment** for easier hosting
 
 ---
 
 ## 🚀 Quick Start (Single-Port Production)
 
-### 1. **Install Dependencies**
+### 1️⃣ Install Dependencies
 ```bash
 npm install
 cd backend && npm install
 ````
 
-### 2. **Configure Environment Variables**
+### 2️⃣ Configure Environment Variables
 
 Create or edit the file: `backend/.env`
 
@@ -31,80 +43,15 @@ JWT_EXPIRES_IN=1h
 JWT_REFRESH_EXPIRES_IN=7d
 ```
 
-### 3. **Build Frontend**
+### 3️⃣ Build & Start
 
 ```bash
-npm run build
-```
-
-> Creates optimized React production build in `dist/`
-
-### 4. **Build Backend**
-
-```bash
-cd backend
-npm run build
-```
-
-### 5. **Start Production Server (Frontend + Backend on One Port)**
-
-```bash
+npm run build         # Build frontend
+cd backend && npm run build   # Build backend
 NODE_ENV=production npm run start
 ```
 
-📍 Access the app at: `http://localhost:5001`
-
----
-
-## 🛠️ Development Mode (Separate Ports)
-
-For development, you can run frontend and backend independently:
-
-### Frontend (in project root):
-
-```bash
-npm run dev
-```
-
-### Backend (in `/backend` folder):
-
-```bash
-npm run dev
-```
-
----
-
-## ⚙️ Features
-
-* ✅ Auto-generated Manufacturing Orders with:
-
-  * Unique order codes
-  * Status workflow (pending → in progress → completed)
-* 📊 Real-time Dashboard:
-
-  * Total Orders
-  * Pending Orders
-  * Stock Levels
-  * Production Efficiency
-* 🔄 Full CRUD APIs for manufacturing orders
-* 🌐 Single-port deployment for easier production hosting
-* 🔐 Secure authentication with JWT (Access + Refresh Tokens)
-
----
-
-## 📡 API Endpoints
-
-All API routes are under the `/api/` prefix:
-
-| Endpoint                        | Method | Description                    |
-| ------------------------------- | ------ | ------------------------------ |
-| `/api/manufacturing-orders`     | GET    | Get all manufacturing orders   |
-| `/api/manufacturing-orders/:id` | PUT    | Update a specific order        |
-| `/api/manufacturing-orders`     | POST   | Create new manufacturing order |
-| `/api/manufacturing-orders/:id` | DELETE | Delete a manufacturing order   |
-| ...                             | ...    | (More endpoints as needed)     |
-
-> 💡 All requests require proper JWT tokens for authentication (unless public).
+➡️ Access the app at: **[http://localhost:5001](http://localhost:5001)**
 
 ---
 
@@ -112,29 +59,40 @@ All API routes are under the `/api/` prefix:
 
 * **Frontend**: React, Vite, Tailwind CSS
 * **Backend**: Node.js, Express, Prisma ORM
-* **Database**: SQLite (default), configurable
+* **Database**: SQLite (default, easily configurable)
 * **Auth**: JWT (access + refresh tokens)
 
 ---
 
-## 🧪 Troubleshooting
+## 📡 Core API Endpoints
 
-| Problem                        | Solution                                                      |
-| ------------------------------ | ------------------------------------------------------------- |
-| ❌ Blank Page on Load           | Make sure frontend is built and backend is started in prod    |
-| 🔁 Port Conflict               | Change `PORT` in `backend/.env`                               |
-| 🔐 Auth issues / Token expired | Ensure tokens are being refreshed properly                    |
-| 🔎 Cannot connect to database  | Verify your `DATABASE_URL` in `.env` is correct and reachable |
+| Endpoint                        | Method | Description                    |
+| ------------------------------- | ------ | ------------------------------ |
+| `/api/manufacturing-orders`     | GET    | Get all manufacturing orders   |
+| `/api/manufacturing-orders`     | POST   | Create new manufacturing order |
+| `/api/manufacturing-orders/:id` | PUT    | Update a specific order        |
+| `/api/manufacturing-orders/:id` | DELETE | Delete a manufacturing order   |
+
+---
+
+## 💡 Troubleshooting
+
+| Issue                          | Fix                                        |
+| ------------------------------ | ------------------------------------------ |
+| ❌ Blank Page on Load           | Ensure frontend is built & backend started |
+| 🔁 Port Conflict               | Change `PORT` in `backend/.env`            |
+| 🔐 Auth Issues / Token Expired | Check token refresh configuration          |
+| 🔎 Database Connection Error   | Verify `DATABASE_URL` in `.env`            |
 
 ---
 
 ## 📄 License
 
-This project is licensed under [MIT](LICENSE).
+MIT License
 
 ```
 
 ---
 
-Just copy everything above and paste it into your `README.md` file. If you want me to generate and send you a downloadable `.md` file, just say the word!
+Would you like me to generate a **downloadable `README.md` file** with this exact content?
 ```
